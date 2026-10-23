@@ -19,7 +19,7 @@ spec:
     spec:
       affinity:
         nodeAffinity:
-          PreferedDuringSchedulingIgnoredDuringExecution:
+           preferredDuringSchedulingIgnoredDuringExecution:
             - weight: 100
               preference:
                 matchExpressions:
@@ -28,11 +28,17 @@ spec:
                     values:
                       - todoapp
         podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            - labelSelector:
-                matchLabels:
-                  app: todoapp
-              topologyKey: kubernetes.io/hostname
+          preferredDuringSchedulingIgnoredDuringExecution:
+            preferredDuringSchedulingIgnoredDuringExecution:
+              - weight: 100
+                podAffinityTerm:
+                  labelSelector:
+                    matchExpressions:
+                      - key: app
+                        operator: In
+                        values:
+                          - todoapp
+                  topologyKey: kubernetes.io/hostname
 
 
       containers:
